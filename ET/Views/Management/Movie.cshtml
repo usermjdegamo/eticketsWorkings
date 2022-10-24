@@ -1,0 +1,82 @@
+﻿@model IEnumerable<ET.Models.Movie>
+
+@{
+    ViewBag.Title = "Movie";
+}
+
+@{
+
+}
+
+<h2>Add movies here!</h2>
+@using (Html.BeginForm("Movie", "Management", FormMethod.Post))
+{
+    <div>
+        <input type="text" required name="name" placeholder="movie image" /><br />
+        <input type="text" required name="description" placeholder="movie description" /><br />
+        <input type="text" required name="price" placeholder="price" /><br />
+        <input type="text" required name="imageURL" placeholder="imageURL" /><br />
+        <input type="date" required name="startDate" placeholder="startDate" /><br />
+        <input type="date" required name="endDate" placeholder="endDate" /><br />
+        <input type="text" required name="movieCategory" placeholder="movie category" /><br />
+        @*<select name="cinemaName"asd>
+                <option value="SM Cinema">SM Cinema</option>
+                <option value="SM Cinema 3">SM Cinema 3</option>
+            </select>><br />*@
+        @*@Html.DropDownListFor(m => m.newTask.task_associates, new SelectList(ViewBag.Users, " "), " ", new { @class = "form-control", id = "assigner-dropdown", @style = "padding:1px;height:26px!important;font-size:13px;", type = "text", placeholder = "Assigned To" })*@
+        @Html.DropDownList("cinemaName", null, "Select Cinema");<br />
+        @Html.DropDownList("producerName", null, "Select Producer");<br />
+        @Html.DropDownList("actorName", null, "Select Actor");<br />
+        <input type="submit" />
+    </div>
+}
+
+<h2>List of all movies here</h2>
+<table id="datatable-fixed-header" class="table table-striped table-bordered" style="width:90%;">
+    <thead>
+        <tr>
+            @*<th>Actions</th>*@
+            <th>@Html.DisplayNameFor(model => model.id)</th>
+            <th>@Html.DisplayNameFor(model => model.description)</th>
+            <th>@Html.DisplayNameFor(model => model.price)</th>
+            <th>@Html.DisplayNameFor(model => model.imageURL)</th>
+            <th>@Html.DisplayNameFor(model => model.startDate)</th>
+            <th>@Html.DisplayNameFor(model => model.endDate)</th>
+            <th>@Html.DisplayNameFor(model => model.movieCategory)</th>
+            <th>@Html.DisplayNameFor(model => model.cinemaID)</th>
+            <th>@Html.DisplayNameFor(model => model.producerID)</th>
+            <th>@Html.DisplayNameFor(model => model.actorID)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td><input type="checkbox" id="sMovie" /></td>*@
+                <td>@item.id</td>
+                <td>@item.description</td>
+                <td>@item.price</td>
+                <td>@item.imageURL</td>
+                <td>@item.startDate</td>
+                <td>@item.endDate</td>
+                <td>@item.movieCategory</td>
+                <td>@item.Cinema.name</td>
+                <td>@item.Producer.fullName</td>
+                <td>@item.Actor.fullName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Remove movie here!</h2>
+@using (Html.BeginForm("MovieDelete", "Management", FormMethod.Post))
+{
+    <div>
+        <input type="text" required name="id" placeholder="movie id" /><br />
+        <input type="submit" />
+    </div>
+}
+
+<script>
+
+</script>

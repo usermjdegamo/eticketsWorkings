@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ET.Models.Actor>
+@{
+    ViewBag.Title = "Actor";
+}
+
+<h2>Add actors here!</h2>
+@using (Html.BeginForm("Actor", "Management", FormMethod.Post))
+{
+    <div>
+        <input type="text" required name="profileURL" placeholder="profile link" /><br />
+        <input type="text" required name="fullName" placeholder="full name" /><br />
+        <input type="text" required name="bio" placeholder="bio" /><br />
+        <input type="submit" />
+    </div>
+}
+
+<h2>List of all actors here</h2>
+<table id="datatable-fixed-header" class="table table-striped table-bordered" style="width:90%;">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.id)</th>
+            <th>@Html.DisplayNameFor(model => model.profileURL)</th>
+            <th>@Html.DisplayNameFor(model => model.fullName)</th>
+            <th>@Html.DisplayNameFor(model => model.bio)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.profileURL</td>
+                <td>@item.fullName</td>
+                <td>@item.bio</td>
+            </tr>
+        }
+    </tbody>
+</table>
