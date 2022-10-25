@@ -3,7 +3,7 @@
     ViewBag.Title = "Actor";
 }
 
-<h2>Add actors here!</h2>
+@*<h2>Add actors here!</h2>
 @using (Html.BeginForm("Actor", "Management", FormMethod.Post))
 {
     <div>
@@ -36,3 +36,95 @@
         }
     </tbody>
 </table>
+
+<h2>Remove actor here!</h2>
+@using (Html.BeginForm("ActorDelete", "Management", FormMethod.Post))
+{
+    <div>
+        <input type="text" required name="id" placeholder="actor id" /><br />
+        <input type="submit" />
+    </div>
+}*@
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>@Html.DisplayNameFor(model => model.profileURL)</th>
+                    <th>@Html.DisplayNameFor(model => model.fullName)</th>
+                    <th>@Html.DisplayNameFor(model => model.bio)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <img class="rounded-circle" src="@item.profileURL" alt="@item.fullName" style="max-width: 150px" />
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.fullName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.bio)
+                        </td>
+
+                        <td class="align-middle">
+                            <a class="btn btn-outline-primary edit" onclick="location.href='@Url.Action("ActorEdit", "Management", new { id = item.id })'" data-id="@item.id"><i class="bi bi-pencil-square"></i>Edit </a> |
+                            <a class="btn btn-outline-info" onclick="location.href='@Url.Action("ActorDetail", "Management", new { id = item.id })'" data-id="@item.id"><i class="bi bi-eye"></i>Details </a> |
+                            <a class="btn btn-danger text-white" onclick="location.href='@Url.Action("ActorDelete", "Management", new { id = item.id })'" data-id="@item.id"><i class="bi bi-trash"></i>Delete </a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <a class="btn btn-success text-white" onclick="location.href='@Url.Action("ActorAdd", "Management")'"><i class="bi bi-pencil-square"></i>Add a new Actor</a>
+        </div>
+    </div>
+
+</div>
+<script>
+
+
+
+</script>
+
+@*<div class="row text">
+        <div class="col-md-8 offset-2">
+            <p>
+                <h1>Add a New Actor</h1>
+            </p>
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    @using (Html.BeginForm("Actor", "Management", FormMethod.Post))
+                    {
+                        <div class="form-group text-center">
+                            <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
+                        </div>
+                        <div class="form-group">
+                            <label for="profileURL" class="control-label"></label>
+                            <input type="text" required name="profileURL" placeholder="Profile picture link" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="fullName" class="control-label"></label>
+                            <input type="text" required name="fullName" placeholder="Full Name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="bio" class="control-label"></label>
+                            <input type="text" required name="bio" placeholder="Bio" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-outline-success float-right" />
+                            <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>*@

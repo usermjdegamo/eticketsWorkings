@@ -1,0 +1,125 @@
+﻿@model ET.Models.Actor
+@{
+    ViewBag.Title = "ActorEdit";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Edit Actor</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                @using (Html.BeginForm("ActorEdit", "Management", FormMethod.Post))
+                {
+                    <div class="form-group text-center">
+                        <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
+                    </div>
+                    <div class="form-group">
+                        <label for="actorID" class="control-label"></label>
+                        <input type="text" value="@ViewBag.actorID" required name="actorID" placeholder="Actor ID" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="profileURL" class="control-label"></label>
+                        <input type="text" value="@ViewBag.actorProfile" required name="profileURL" placeholder="Profile picture link" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="fullName" class="control-label"></label>
+                        <input type="text" value="@ViewBag.actorName" required name="fullName" placeholder="Full Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="bio" class="control-label"></label>
+                        <input type="text" value="@ViewBag.actorBio" required name="bio" placeholder="Bio" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<h2>ActorEdit</h2>
+
+    <div class="row text">
+        <div class="col-md-8 offset-2">
+            <p>
+                <h1>Add a New Actor</h1>
+            </p>
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    @using (Html.BeginForm("ActorEdit", "Management", FormMethod.Post))
+                    {
+                        <div class="form-group">
+                            <label for="id" class="control-label"></label>
+                            <input type="text" required name="id" placeholder="actor id" value="@ViewBag.actorID" class="form-control" />
+                        </div>
+                        <div class="form-group text-center">
+                            <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
+                        </div>
+                        <div class="form-group">
+                            <label for="profileURL" class="control-label"></label>
+                            <input type="text" required name="profileURL" placeholder="Profile picture link" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="fullName" class="control-label"></label>
+                            <input type="text" required name="fullName" placeholder="Full Name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="bio" class="control-label"></label>
+                            <input type="text" required name="bio" placeholder="Bio" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-outline-success float-right" />
+                            <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Actor</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.profileURL, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.profileURL, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.profileURL, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.fullName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.fullName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.fullName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.bio, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.bio, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.bio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }*@

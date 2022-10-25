@@ -3,40 +3,53 @@
     ViewBag.Title = "Cinema";
 }
 
-<h2>Add cinemas here!</h2>
-@using (Html.BeginForm("Cinema", "Management", FormMethod.Post))
-{
-    <div>
-        <input type="text" required name="logo" placeholder="logo link" /><br />
-        <input type="text" required name="name" placeholder="cinema name" /><br />
-        <input type="text" required name="description" placeholder="cinema description" /><br />
-        <input type="submit" />
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>@Html.DisplayNameFor(model => model.logo)</th>
+                    <th>@Html.DisplayNameFor(model => model.name)</th>
+                    <th>@Html.DisplayNameFor(model => model.description)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">
+                            <img class="rounded-circle" src="@item.logo" alt="@item.name" style="max-width: 150px" />
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.name)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.description)
+                        </td>
+
+                        <td class="align-middle">
+                            <a class="btn btn-outline-primary edit" onclick="location.href='@Url.Action("CinemaEdit", "Management", new { id = item.id })'" data-id="@item.id"><i class="bi bi-pencil-square"></i>Edit </a> |
+                            <a class="btn btn-outline-info" onclick="location.href='@Url.Action("CinemaDetail", "Management", new { id = item.id })'" data-id="@item.id"><i class="bi bi-eye"></i>Details </a> |
+                            <a class="btn btn-danger text-white" onclick="location.href='@Url.Action("CinemaDelete", "Management", new { id = item.id })'" data-id="@item.id"><i class="bi bi-trash"></i>Delete </a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <a class="btn btn-success text-white" onclick="location.href='@Url.Action("CinemaAdd", "Management")'"><i class="bi bi-pencil-square"></i>Add a new Cinema</a>
+        </div>
     </div>
-}
 
-<h2>List of all producers here</h2>
-<table id="datatable-fixed-header" class="table table-striped table-bordered" style="width:90%;">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.id)</th>
-            <th>@Html.DisplayNameFor(model => model.logo)</th>
-            <th>@Html.DisplayNameFor(model => model.name)</th>
-            <th>@Html.DisplayNameFor(model => model.description)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.id</td>
-                <td>@item.logo</td>
-                <td>@item.name</td>
-                <td>@item.description</td>
-            </tr>
-        }
-    </tbody>
-</table>
+</div>
+<script>
 
+
+
+</script>
 
 
 

@@ -1,0 +1,44 @@
+﻿@model ET.Models.Producer
+@{
+    ViewBag.Title = "ProducerEdit";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Edit Producer</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                @using (Html.BeginForm("ProducerEdit", "Management", FormMethod.Post))
+                {
+                    <div class="form-group text-center">
+                        <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ProducerID" class="control-label"></label>
+                        <input type="text" value="@ViewBag.ProducerID" required name="ProducerID" placeholder="Producer ID" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="profileURL" class="control-label"></label>
+                        <input type="text" value="@ViewBag.ProducerProfile" required name="profileURL" placeholder="Profile picture link" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="fullName" class="control-label"></label>
+                        <input type="text" value="@ViewBag.ProducerName" required name="fullName" placeholder="Full Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="bio" class="control-label"></label>
+                        <input type="text" value="@ViewBag.ProducerBio" required name="bio" placeholder="Bio" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

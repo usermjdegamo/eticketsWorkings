@@ -21,65 +21,96 @@ namespace ET.Controllers
             return View(newdata);
         }
 
-        [HttpPost]
-        public ActionResult Actor(Actor ba)
+        public ActionResult ActorDelete(int id)
         {
-            var data = db.Actors.ToList();
-            List<Actor> newdata = data;
+            var db2 = db.Actors.Where(x => x.id == id).FirstOrDefault();
+            db.Actors.Remove(db2);
+            db.SaveChanges();
 
-            if (ModelState.IsValid)
-            {
-                db.Actors.Add(ba);
-                db.SaveChanges();
-            }
-            return View(newdata);
+            return RedirectToAction("Actor", "Management");
         }
 
         [HttpGet]
-        public ActionResult Producer()
+        public ActionResult ActorEdit(int id)
         {
-            var data = db.Producers.ToList();
-            List<Producer> newdata = data;
+            var db2 = db.Actors.Where(x => x.id == id).FirstOrDefault();
+            ViewBag.actorProfile = db2.profileURL;
+            ViewBag.actorName = db2.fullName;
+            ViewBag.actorBio = db2.bio;
+            ViewBag.actorID = db2.id;
 
-            return View(newdata);
+            //db2.bio = ba.bio;
+            //db2.fullName = ba.fullName;
+            //db2.profileURL = ba.profileURL;
+
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Producer(Producer ba)
+        public ActionResult ActorEdit(int id, Actor ba)
         {
-            var data = db.Producers.ToList();
-            List<Producer> newdata = data;
+            var db2 = db.Actors.Where(x => x.id == id).FirstOrDefault();
 
-            if (ModelState.IsValid)
-            {
-                db.Producers.Add(ba);
-                db.SaveChanges();
-            }
-            return View(newdata);
+            db2.bio = ba.bio;
+            db2.fullName = ba.fullName;
+            db2.profileURL = ba.profileURL;
+            db.SaveChanges();
+
+            return RedirectToAction("ActorEdit", "Management");
         }
 
         [HttpGet]
-        public ActionResult Cinema()
+        public ActionResult ActorAdd()
         {
-            var data = db.Cinemas.ToList();
-            List<Cinema> newdata = data;
-
-            return View(newdata);
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Cinema(Cinema ba)
+        public ActionResult ActorAdd(Actor ba)
         {
-            var data = db.Cinemas.ToList();
-            List<Cinema> newdata = data;
 
-            if (ModelState.IsValid)
-            {
-                db.Cinemas.Add(ba);
-                db.SaveChanges();
-            }
-            return View(newdata);
+            db.Actors.Add(ba);
+            db.SaveChanges();
+
+
+            return View();
         }
+
+        [HttpGet]
+        public ActionResult ActorDetail(int id)
+        {
+            var db2 = db.Actors.Where(x => x.id == id).FirstOrDefault();
+            ViewBag.actorProfile = db2.profileURL;
+            ViewBag.actorName = db2.fullName;
+            ViewBag.actorBio = db2.bio;
+            ViewBag.actorID = db2.id;
+
+            return View();
+        }
+
+
+        //[HttpGet]
+        //public ActionResult Cinema()
+        //{
+        //    var data = db.Cinemas.ToList();
+        //    List<Cinema> newdata = data;
+
+        //    return View(newdata);
+        //}
+
+        //[HttpPost]
+        //public ActionResult Cinema(Cinema ba)
+        //{
+        //    var data = db.Cinemas.ToList();
+        //    List<Cinema> newdata = data;
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Cinemas.Add(ba);
+        //        db.SaveChanges();
+        //    }
+        //    return View(newdata);
+        //}
 
         [HttpGet]
         public ActionResult Movie()
@@ -138,6 +169,159 @@ namespace ET.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Movie", "Management");
+        }
+
+        //public ActionResult CinemaDelete(int id)
+        //{
+        //    var db2 = db.Cinemas.Where(x => x.id == id).FirstOrDefault();
+        //    db.Cinemas.Remove(db2);
+        //    db.SaveChanges();
+
+        //    return RedirectToAction("Cinema", "Management");
+        //}
+
+        //Producer
+        [HttpGet]
+        public ActionResult Producer()
+        {
+            var data = db.Producers.ToList();
+            List<Producer> newdata = data;
+
+            return View(newdata);
+        }
+
+        [HttpGet]
+        public ActionResult ProducerAdd()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ProducerAdd(Producer ba)
+        {
+
+            db.Producers.Add(ba);
+            db.SaveChanges();
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ProducerEdit(int id)
+        {
+            var db2 = db.Producers.Where(x => x.id == id).FirstOrDefault();
+            ViewBag.ProducerProfile = db2.profileURL;
+            ViewBag.ProducerName = db2.fullName;
+            ViewBag.ProducerBio = db2.bio;
+            ViewBag.ProducerID = db2.id;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ProducerEdit(int id, Producer ba)
+        {
+            var db2 = db.Producers.Where(x => x.id == id).FirstOrDefault();
+
+            db2.bio = ba.bio;
+            db2.fullName = ba.fullName;
+            db2.profileURL = ba.profileURL;
+            db.SaveChanges();
+
+            return RedirectToAction("ProducerEdit", "Management");
+        }
+
+        [HttpGet]
+        public ActionResult ProducerDetail(int id)
+        {
+            var db2 = db.Producers.Where(x => x.id == id).FirstOrDefault();
+            ViewBag.ProducerProfile = db2.profileURL;
+            ViewBag.ProducerName = db2.fullName;
+            ViewBag.ProducerBio = db2.bio;
+            ViewBag.ProducerID = db2.id;
+
+            return View();
+        }
+
+        public ActionResult ProducerDelete(int id)
+        {
+            var db2 = db.Producers.Where(x => x.id == id).FirstOrDefault();
+            db.Producers.Remove(db2);
+            db.SaveChanges();
+
+            return RedirectToAction("Producer", "Management");
+        }
+
+        //Cinema
+        [HttpGet]
+        public ActionResult Cinema()
+        {
+            var data = db.Cinemas.ToList();
+            List<Cinema> newdata = data;
+
+            return View(newdata);
+        }
+
+        [HttpGet]
+        public ActionResult CinemaAdd()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CinemaAdd(Cinema ba)
+        {
+
+            db.Cinemas.Add(ba);
+            db.SaveChanges();
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult CinemaEdit(int id)
+        {
+            var db2 = db.Cinemas.Where(x => x.id == id).FirstOrDefault();
+            ViewBag.CinemaProfile = db2.logo;
+            ViewBag.CinemaName = db2.name;
+            ViewBag.Cinemadescription = db2.description;
+            ViewBag.CinemaID = db2.id;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CinemaEdit(int id, Cinema ba)
+        {
+            var db2 = db.Cinemas.Where(x => x.id == id).FirstOrDefault();
+
+            db2.description = ba.description;
+            db2.name = ba.name;
+            db2.logo = ba.logo;
+            db.SaveChanges();
+
+            return RedirectToAction("CinemaEdit", "Management");
+        }
+
+        [HttpGet]
+        public ActionResult CinemaDetail(int id)
+        {
+            var db2 = db.Cinemas.Where(x => x.id == id).FirstOrDefault();
+            ViewBag.CinemaProfile = db2.logo;
+            ViewBag.CinemaName = db2.name;
+            ViewBag.Cinemadescription = db2.description;
+            ViewBag.CinemaID = db2.id;
+
+            return View();
+        }
+
+        public ActionResult CinemaDelete(int id)
+        {
+            var db2 = db.Cinemas.Where(x => x.id == id).FirstOrDefault();
+            db.Cinemas.Remove(db2);
+            db.SaveChanges();
+
+            return RedirectToAction("Cinema", "Management");
         }
     }
 }

@@ -1,0 +1,44 @@
+﻿@model ET.Models.Cinema
+@{
+    ViewBag.Title = "CinemaEdit";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Edit Cinema</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                @using (Html.BeginForm("CinemaEdit", "Management", FormMethod.Post))
+                {
+                    <div class="form-group text-center">
+                        <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
+                    </div>
+                    <div class="form-group">
+                        <label for="CinemaID" class="control-label"></label>
+                        <input type="text" value="@ViewBag.CinemaID" required name="CinemaID" placeholder="Cinema ID" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="profileURL" class="control-label"></label>
+                        <input type="text" value="@ViewBag.CinemaProfile" required name="logo" placeholder="Profile picture link" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="fullName" class="control-label"></label>
+                        <input type="text" value="@ViewBag.CinemaName" required name="name" placeholder="Full Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="bio" class="control-label"></label>
+                        <input type="text" value="@ViewBag.Cinemadescription" required name="description" placeholder="Bio" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
