@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Database1EntitiesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Actor">
           <Key>
             <PropertyRef Name="id" />
@@ -21,7 +21,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="logo" Type="nvarchar(max)" />
           <Property Name="name" Type="nvarchar" MaxLength="50" />
-          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="description" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Movie">
           <Key>
@@ -32,9 +32,9 @@
           <Property Name="description" Type="nvarchar(max)" />
           <Property Name="price" Type="float" />
           <Property Name="imageURL" Type="nvarchar(max)" />
-          <Property Name="startDate" Type="datetime" />
+          <Property Name="startDate" Type="datetime" Nullable="false" />
           <Property Name="endDate" Type="datetime" />
-          <Property Name="movieCategory" Type="nvarchar" MaxLength="50" />
+          <Property Name="category" Type="nvarchar" MaxLength="50" />
           <Property Name="cinemaID" Type="int" />
           <Property Name="producerID" Type="int" />
           <Property Name="actorID" Type="int" />
@@ -48,7 +48,82 @@
           <Property Name="fullName" Type="nvarchar" MaxLength="50" />
           <Property Name="bio" Type="nvarchar(max)" />
         </EntityType>
-        <Association Name="FK_Movie_ToActor">
+        <Association Name="FK_Movie_Cinema">
+          <End Role="Producer" Type="Self.Producer" Multiplicity="0..1" />
+          <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="producerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1EntitiesModelStoreContainer">
+          <EntitySet Name="Actor" EntityType="Self.Actor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cinema" EntityType="Self.Cinema" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movie" EntityType="Self.Movie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producer" EntityType="Self.Producer" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Movie_Cinema" Association="Self.FK_Movie_Cinema">
+            <End Role="Producer" EntitySet="Producer" />
+            <End Role="Movie" EntitySet="Movie" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1EntitiesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Actor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="profileURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Movies" Relationship="Self.FK_Movie_Actor" FromRole="Actor" ToRole="Movie" />
+        </EntityType>
+        <EntityType Name="Cinema">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Movies" Relationship="Database1EntitiesModel.FK_Movie_Cinema" FromRole="Cinema" ToRole="Movie" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Double" />
+          <Property Name="imageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="startDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="endDate" Type="DateTime" Precision="3" />
+          <Property Name="category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cinemaID" Type="Int32" />
+          <Property Name="producerID" Type="Int32" />
+          <Property Name="actorID" Type="Int32" />
+          <NavigationProperty Name="Actor" Relationship="Self.FK_Movie_Actor" FromRole="Movie" ToRole="Actor" />
+          <NavigationProperty Name="Cinema" Relationship="Database1EntitiesModel.FK_Movie_Cinema" FromRole="Movie" ToRole="Cinema" />
+          <NavigationProperty Name="Producer" Relationship="Database1EntitiesModel.FK_Movie_Cinema1" FromRole="Movie" ToRole="Producer" />
+        </EntityType>
+        <EntityType Name="Producer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="profileURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Movies" Relationship="Database1EntitiesModel.FK_Movie_Cinema1" FromRole="Producer" ToRole="Movie" />
+        </EntityType>
+        <Association Name="FK_Movie_Actor">
           <End Role="Actor" Type="Self.Actor" Multiplicity="0..1" />
           <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
           <ReferentialConstraint>
@@ -60,152 +135,45 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Movie_ToCinema">
-          <End Role="Cinema" Type="Self.Cinema" Multiplicity="0..1" />
-          <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cinema">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Movie">
-              <PropertyRef Name="cinemaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Movie_ToProducer">
-          <End Role="Producer" Type="Self.Producer" Multiplicity="0..1" />
-          <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Producer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Movie">
-              <PropertyRef Name="producerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="Database1ModelStoreContainer">
-          <EntitySet Name="Actor" EntityType="Self.Actor" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Cinema" EntityType="Self.Cinema" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Movie" EntityType="Self.Movie" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Producer" EntityType="Self.Producer" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Movie_ToActor" Association="Self.FK_Movie_ToActor">
-            <End Role="Actor" EntitySet="Actor" />
-            <End Role="Movie" EntitySet="Movie" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movie_ToCinema" Association="Self.FK_Movie_ToCinema">
-            <End Role="Cinema" EntitySet="Cinema" />
-            <End Role="Movie" EntitySet="Movie" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movie_ToProducer" Association="Self.FK_Movie_ToProducer">
-            <End Role="Producer" EntitySet="Producer" />
-            <End Role="Movie" EntitySet="Movie" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
-    <!-- CSDL content -->
-    <edmx:ConceptualModels>
-      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Actor">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="profileURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="fullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Movies" Relationship="Database1Model.FK_Movie_ToActor" FromRole="Actor" ToRole="Movie" />
-        </EntityType>
-        <EntityType Name="Cinema">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Movies" Relationship="Self.FK_Movie_ToCinema" FromRole="Cinema" ToRole="Movie" />
-        </EntityType>
-        <EntityType Name="Movie">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="price" Type="Double" />
-          <Property Name="imageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="startDate" Type="DateTime" Precision="3" />
-          <Property Name="endDate" Type="DateTime" Precision="3" />
-          <Property Name="movieCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="cinemaID" Type="Int32" />
-          <Property Name="producerID" Type="Int32" />
-          <NavigationProperty Name="Cinema" Relationship="Self.FK_Movie_ToCinema" FromRole="Movie" ToRole="Cinema" />
-          <NavigationProperty Name="Producer" Relationship="Self.FK_Movie_ToProducer" FromRole="Movie" ToRole="Producer" />
-          <Property Name="actorID" Type="Int32" />
-          <NavigationProperty Name="Actor" Relationship="Database1Model.FK_Movie_ToActor" FromRole="Movie" ToRole="Actor" />
-        </EntityType>
-        <EntityType Name="Producer">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="profileURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="fullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="bio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Movies" Relationship="Self.FK_Movie_ToProducer" FromRole="Producer" ToRole="Movie" />
-        </EntityType>
-        <Association Name="FK_Movie_ToCinema">
-          <End Role="Cinema" Type="Self.Cinema" Multiplicity="0..1" />
-          <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cinema">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Movie">
-              <PropertyRef Name="cinemaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Movie_ToProducer">
-          <End Role="Producer" Type="Self.Producer" Multiplicity="0..1" />
-          <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Producer">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Movie">
-              <PropertyRef Name="producerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Database1EntitiesEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Actors" EntityType="Self.Actor" />
           <EntitySet Name="Cinemas" EntityType="Self.Cinema" />
           <EntitySet Name="Movies" EntityType="Self.Movie" />
           <EntitySet Name="Producers" EntityType="Self.Producer" />
-          <AssociationSet Name="FK_Movie_ToCinema" Association="Self.FK_Movie_ToCinema">
-            <End Role="Cinema" EntitySet="Cinemas" />
-            <End Role="Movie" EntitySet="Movies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movie_ToProducer" Association="Self.FK_Movie_ToProducer">
-            <End Role="Producer" EntitySet="Producers" />
-            <End Role="Movie" EntitySet="Movies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Movie_ToActor" Association="Database1Model.FK_Movie_ToActor">
+          <AssociationSet Name="FK_Movie_Actor" Association="Self.FK_Movie_Actor">
             <End Role="Actor" EntitySet="Actors" />
             <End Role="Movie" EntitySet="Movies" />
           </AssociationSet>
+          <AssociationSet Name="FK_Movie_Cinema" Association="Database1EntitiesModel.FK_Movie_Cinema">
+            <End Role="Cinema" EntitySet="Cinemas" />
+            <End Role="Movie" EntitySet="Movies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movie_Cinema1" Association="Database1EntitiesModel.FK_Movie_Cinema1">
+            <End Role="Producer" EntitySet="Producers" />
+            <End Role="Movie" EntitySet="Movies" />
+          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_Movie_ToActor">
-          <End Type="Database1Model.Actor" Role="Actor" Multiplicity="0..1" />
-          <End Type="Database1Model.Movie" Role="Movie" Multiplicity="*" />
+        <Association Name="FK_Movie_Cinema">
+          <End Type="Database1EntitiesModel.Cinema" Role="Cinema" Multiplicity="0..1" />
+          <End Type="Database1EntitiesModel.Movie" Role="Movie" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Actor">
+            <Principal Role="Cinema">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Movie">
-              <PropertyRef Name="actorID" />
+              <PropertyRef Name="cinemaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movie_Cinema1">
+          <End Type="Database1EntitiesModel.Producer" Role="Producer" Multiplicity="0..1" />
+          <End Type="Database1EntitiesModel.Movie" Role="Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="producerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -214,9 +182,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="Database1Entities">
+        <EntityContainerMapping StorageEntityContainer="Database1EntitiesModelStoreContainer" CdmEntityContainer="Database1EntitiesEntities2">
           <EntitySetMapping Name="Actors">
-            <EntityTypeMapping TypeName="Database1Model.Actor">
+            <EntityTypeMapping TypeName="Database1EntitiesModel.Actor">
               <MappingFragment StoreEntitySet="Actor">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="profileURL" ColumnName="profileURL" />
@@ -226,7 +194,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cinemas">
-            <EntityTypeMapping TypeName="Database1Model.Cinema">
+            <EntityTypeMapping TypeName="Database1EntitiesModel.Cinema">
               <MappingFragment StoreEntitySet="Cinema">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="logo" ColumnName="logo" />
@@ -236,9 +204,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Movies">
-            <EntityTypeMapping TypeName="Database1Model.Movie">
+            <EntityTypeMapping TypeName="Database1EntitiesModel.Movie">
               <MappingFragment StoreEntitySet="Movie">
-                <ScalarProperty Name="actorID" ColumnName="actorID" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
@@ -246,14 +213,15 @@
                 <ScalarProperty Name="imageURL" ColumnName="imageURL" />
                 <ScalarProperty Name="startDate" ColumnName="startDate" />
                 <ScalarProperty Name="endDate" ColumnName="endDate" />
-                <ScalarProperty Name="movieCategory" ColumnName="movieCategory" />
+                <ScalarProperty Name="category" ColumnName="category" />
                 <ScalarProperty Name="cinemaID" ColumnName="cinemaID" />
                 <ScalarProperty Name="producerID" ColumnName="producerID" />
+                <ScalarProperty Name="actorID" ColumnName="actorID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Producers">
-            <EntityTypeMapping TypeName="Database1Model.Producer">
+            <EntityTypeMapping TypeName="Database1EntitiesModel.Producer">
               <MappingFragment StoreEntitySet="Producer">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="profileURL" ColumnName="profileURL" />

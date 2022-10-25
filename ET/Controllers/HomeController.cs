@@ -9,7 +9,7 @@ namespace ET.Controllers
 {
     public class HomeController : Controller
     {
-        Database1Entities db = new Database1Entities();
+        Database1EntitiesEntities2 db = new Database1EntitiesEntities2();
 
         // GET: Home
         [HttpGet]

@@ -13,10 +13,10 @@ namespace ET.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Database1Entities : DbContext
+    public partial class Database1EntitiesEntities2 : DbContext
     {
-        public Database1Entities()
-            : base("name=Database1Entities")
+        public Database1EntitiesEntities2()
+            : base("name=Database1EntitiesEntities2")
         {
         }
     

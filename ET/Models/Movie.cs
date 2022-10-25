@@ -19,15 +19,15 @@ namespace ET.Models
         public string description { get; set; }
         public Nullable<double> price { get; set; }
         public string imageURL { get; set; }
-        public Nullable<System.DateTime> startDate { get; set; }
+        public System.DateTime startDate { get; set; }
         public Nullable<System.DateTime> endDate { get; set; }
-        public string movieCategory { get; set; }
+        public string category { get; set; }
         public Nullable<int> cinemaID { get; set; }
         public Nullable<int> producerID { get; set; }
         public Nullable<int> actorID { get; set; }
     
+        public virtual Actor Actor { get; set; }
         public virtual Cinema Cinema { get; set; }
         public virtual Producer Producer { get; set; }
-        public virtual Actor Actor { get; set; }
     }
 }

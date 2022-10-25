@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
-
+@*asdasd*@
 <h2>Index</h2>
 <div class="row">
     @foreach (var item in Model)
@@ -26,7 +26,7 @@
                         <div class="card-body">
                             <p class="card-text">@item.description</p>
                             <p class="card-text"><b>Cinema: </b>@item.Cinema.name</p>
-                            <p class="card-text"><b>Category: </b>@item.movieCategory</p>
+                            <p class="card-text"><b>Category: </b>@item.category</p>
                             <p class="card-text"><b>Start Date: </b>@item.startDate.ToString()</p>
                             <p class="card-text"><b>End Date: </b>@item.endDate.ToString()</p>
                             <p class="card-text ">

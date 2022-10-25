@@ -9,7 +9,7 @@ namespace ET.Controllers
 {
     public class ManagementController : Controller
     {
-        Database1Entities db = new Database1Entities();
+        Database1EntitiesEntities2 db = new Database1EntitiesEntities2();
 
         // GET: Management
         [HttpGet]
@@ -68,11 +68,11 @@ namespace ET.Controllers
         [HttpPost]
         public ActionResult ActorAdd(Actor ba)
         {
-
-            db.Actors.Add(ba);
-            db.SaveChanges();
-
-
+            if (ModelState.IsValid)
+            {
+                db.Actors.Add(ba);
+                db.SaveChanges();
+            }
             return View();
         }
 
@@ -87,31 +87,8 @@ namespace ET.Controllers
 
             return View();
         }
-
-
-        //[HttpGet]
-        //public ActionResult Cinema()
-        //{
-        //    var data = db.Cinemas.ToList();
-        //    List<Cinema> newdata = data;
-
-        //    return View(newdata);
-        //}
-
-        //[HttpPost]
-        //public ActionResult Cinema(Cinema ba)
-        //{
-        //    var data = db.Cinemas.ToList();
-        //    List<Cinema> newdata = data;
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Cinemas.Add(ba);
-        //        db.SaveChanges();
-        //    }
-        //    return View(newdata);
-        //}
-
+ 
+        //Movie
         [HttpGet]
         public ActionResult Movie()
         {
@@ -160,6 +137,55 @@ namespace ET.Controllers
                 db.SaveChanges();
             }
             return View(newdata);
+        }
+
+        [HttpGet]
+        public ActionResult MovieAdd(Movie ba, string cinemaName = null, string producerName = null, string actorName = null)
+        {
+            var data2 = db.Cinemas.Where(x => x.name == cinemaName).FirstOrDefault();
+            var data3 = db.Producers.Where(x => x.fullName == producerName).FirstOrDefault();
+            var data4 = db.Actors.Where(x => x.fullName == actorName).FirstOrDefault();
+
+            var list = db.Cinemas.ToList();
+            var list2 = db.Producers.ToList();
+            var list3 = db.Actors.ToList();
+
+            ViewBag.cinemaName = new SelectList(list, "name", "name");
+            ViewBag.producerName = new SelectList(list2, "fullName", "fullName");
+            ViewBag.actorName = new SelectList(list3, "fullName", "fullName");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MovieAdd2(Movie ba, string cinemaName = null, string producerName = null, string actorName = null)
+        {
+            var data2 = db.Cinemas.Where(x => x.name == cinemaName).FirstOrDefault();
+            var data3 = db.Producers.Where(x => x.fullName == producerName).FirstOrDefault();
+            var data4 = db.Actors.Where(x => x.fullName == actorName).FirstOrDefault();
+
+            var list = db.Cinemas.ToList();
+            var list2 = db.Producers.ToList();
+            var list3 = db.Actors.ToList();
+
+            ViewBag.cinemaName = new SelectList(list, "name", "name");
+            ViewBag.producerName = new SelectList(list2, "fullName", "fullName");
+            ViewBag.actorName = new SelectList(list3, "fullName", "fullName");
+
+            ViewBag.cinemaName2 = list;
+
+            var data = db.Movies.ToList();
+            List<Movie> newdata = data;
+
+            if (ModelState.IsValid)
+            {
+                ba.cinemaID = data2.id;
+                ba.actorID = data4.id;
+                ba.producerID = data3.id;
+                db.Movies.Add(ba);
+                db.SaveChanges();
+            }
+            return RedirectToAction("MovieAdd", "Management");
         }
 
         public ActionResult MovieDelete(int id)
